@@ -1,0 +1,83 @@
+body {
+margin: 0;
+
+}
+
+.fixed-header{
+width: 100%;
+height: 50px;
+float: left;
+background-color: #4763c6;
+}
+
+.fixed-header .header-search-bar{
+width: 350px;
+height: 40px;
+margin-left: 100px;
+margin-top: 5px;
+margin-bottom: 5px;
+float: left;
+}
+
+.fixed-header .header-app-name{
+width: calc(100% - 450px);
+height: 40px;
+line-height: 40px;
+text-align: center;
+color: #ffffff;
+font-size: 2em;
+font-weight: 100;
+float: left;
+}
+
+.header-search-bar .input{
+width: 302px;
+height: 34px;
+border: none;
+padding: 2px 4px;
+float: left;
+}
+
+.header-search-bar .input-icon{
+width: 39px;
+height: 39px;
+line-height: 50px;
+text-align: center;
+color: #ffffff;
+cursor: pointer;
+float: left;
+}
+
+.header-search-bar .input-icon:hover{
+background-color: #284ccc
+}
+
+.scrollable-content{
+width: calc(100% - 10px);
+height: auto;
+padding: 5px 5px;
+float: left;
+}
+
+.scrollable-content .results-box{
+width: 100%;
+height: auto;
+padding: 5px;
+box-sizing: border-box;
+float:left;
+}
+
+.results-box .image-ele{
+width: 23%;
+min-height: 150px;
+margin: 5px;
+box-sizing: border-box;
+position:relative;
+display:inline-block;
+}
+
+
+.image-ele img{
+max-width: 100%;
+height: auto;
+}

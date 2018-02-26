@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="imageGalleryApp">
+<head>
+	<script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+	<script src="makeup/js_scripts.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="makeup/css_styles.css">
+</head>
+<body ng-controller="indexController as controller" ng-cloak>
+	<div class="fixed-header">
+		<div class="header-search-bar">
+			<input type="text" ng-model="controller.searchQuery" class="input"/>
+			<div class="input-icon" ng-click="controller.getSearchResult()">
+				<i class="material-icons">&#xE8B6;</i>
+			</div>
+		</div>
+		<div class="header-app-name">
+			{{ controller.appName }}
+		</div>
+	</div>
+	<div class="scrollable-content" >
+		<div class="results-box" ng-if="controller.listResult">
+			<a class="image-ele" ng-repeat="result in controller.listResult" ng-href="https://{{ result.displayLink }}" target="_blank">
+				<img ng-src="{{ result.link }}" />
+			</a>
+		</div>
+	</div>
+</body>
+</html>
