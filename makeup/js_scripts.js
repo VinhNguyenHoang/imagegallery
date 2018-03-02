@@ -2,7 +2,7 @@ var app = angular.module("imageGalleryApp", [])
 
 .constant('API_CONFIG', {
 	'URL': 'https://www.googleapis.com/customsearch/v1',
-	'KEY': 'AIzaSyBxqjnu-hrNMAPWH3qLoIVaoeiSYuPP6w0',
+	'KEY': ' AIzaSyCmSp7fO3vYEupmPANvmrCisVk0ml3ArUQ',
 	'CX': '001339494331939936132:pmyt7azhrdg',
 	'NUM_RESULTS': 10,
 	'START': 1,
@@ -10,8 +10,28 @@ var app = angular.module("imageGalleryApp", [])
 	'IMAGE_SIZE': 'medium'
 })
 
-.factory('apiService', function($http, API_CONFIG) {
+.factory('ImgItem', function(){
+	function ImgItem(width, height, imgSrc, ctxLink){
+		this.width = width;
+		this.height = height;
+		this.imgSrc = imgSrc;
+		this.ctxLink = ctxLink;
+	}
+
+	return ImgItem;
+})
+
+.factory('apiService', function($http, API_CONFIG, ImgItem) {
 	function searchByQuery(query, offset) {
+		var items = Array();
+		console.log(API_CONFIG.URL 
+			+ '?q=' + query 
+			+ '&num=' + API_CONFIG.NUM_RESULTS
+			+ '&start=' + offset
+			+ '&imgSize=' + API_CONFIG.IMAGE_SIZE
+			+ '&searchType=' + API_CONFIG.SEARCH_TYPE
+			+ '&key=' + API_CONFIG.KEY
+			+ '&cx=' + API_CONFIG.CX);
 		return $http({
 			method: 'GET',
 			url: API_CONFIG.URL 
@@ -24,7 +44,12 @@ var app = angular.module("imageGalleryApp", [])
 			+ '&cx=' + API_CONFIG.CX
 		})
 		.then(function successCallback(res) {
-			return res.data.items;
+			res.data.items.forEach(item => {
+				var imgItem = new ImgItem(item.image.width, item.image.height, item.link, item.image.contextLink);
+				items.push(imgItem);
+			});
+
+			return items;
 		})
 		.then(function errorCallback(res){
 			return res;
@@ -36,20 +61,24 @@ var app = angular.module("imageGalleryApp", [])
 	}
 })
 
+
 .controller('indexController', ['$window', 'apiService', 'API_CONFIG', function($window, apiService, API_CONFIG) {
 	var ctrl = this;
 	ctrl.appName = 'Image Gallery Web Application';
 	ctrl.searchQuery = '';
+	ctrl.showLoadMore = false;
 	ctrl.listResult = Array();
 	ctrl.getSearchResult = function(){
 		if (ctrl.searchQuery == '')
 			return;
 		ctrl.listResult = [];
+		ctrl.showLoadMore = false;
 		ctrl.offsetCount = API_CONFIG.START;
 		apiService.searchByQuery(this.searchQuery, ctrl.offsetCount).then(data => {
 			data.forEach(d => {
 				ctrl.listResult.push(d);
-			})
+			});
+			ctrl.showLoadMore = true;
 		});
 	};
 	ctrl.loadMore = function() {
@@ -59,7 +88,7 @@ var app = angular.module("imageGalleryApp", [])
 		apiService.searchByQuery(this.searchQuery, ctrl.offsetCount).then(data => {
 			data.forEach(d => {
 				ctrl.listResult.push(d);
-			})
+			});
 		});
 	};
 	angular.element($window).bind('scroll', function() {

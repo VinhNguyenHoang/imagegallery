@@ -18,11 +18,16 @@
 			{{ controller.appName }}
 		</div>
 	</div>
-	<div class="scrollable-content" >
-		<div class="results-box" ng-if="controller.listResult">
-			<a class="image-ele" ng-repeat="result in controller.listResult" ng-href="https://{{ result.displayLink }}" target="_blank">
-				<img ng-src="{{ result.link }}" />
+	<div class="scrollable-content">
+		<div id="results-box" class="results-box">
+			<a class="image-ele" ng-repeat="result in controller.listResult" ng-href="https://{{ result.ctxLink }}" style="height:150px" target="_blank">
+				<img ng-src="{{ result.imgSrc }}" />
 			</a>
+		</div>
+	</div>
+	<div class="load-more" ng-if="controller.showLoadMore">
+		<div class="button" ng-click="controller.loadMore()">
+			Load more
 		</div>
 	</div>
 </body>
